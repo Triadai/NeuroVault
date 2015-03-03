@@ -22,7 +22,7 @@ from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 import shutil
 from neurovault.apps.statmaps.tasks import generate_glassbrain_image, save_voxelwise_pearson_similarity
-
+from neurovault.settings import PRIVATE_MEDIA_ROOT
 
 class Collection(models.Model):
     name = models.CharField(max_length=200, unique = True, null=False, verbose_name="Name of collection")
@@ -138,6 +138,12 @@ class Collection(models.Model):
         if self.private_token is not None and self.private_token.strip() == "":
             self.private_token = None
         super(Collection, self).save()
+        
+    @receiver(post_delete)
+    def delete_dir(self):
+        collDir = os.path.join(PRIVATE_MEDIA_ROOT, 'images',str(self.id))
+        os.rmdir(collDir)
+        
 
     class Meta:
         app_label = 'statmaps'
