@@ -48,7 +48,7 @@ def create_user(request):
 
     context = {"form": form,
                "request": request}
-    return render(request, "registration/edit_user.html", context)
+    return render(request, "registration/signup.html", context)
 
 
 @login_required

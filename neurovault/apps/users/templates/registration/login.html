@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="auth-wrapper">
-    <h3>Log In, or <a href="{% url 'create_user' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Sign Up</a></h3>
+    <ul class="nav nav-tabs" style="margin-bottom: 43px; margin-top: 15px;">
+        <li role="presentation" class="active"><a href="#">Log In</a></li>
+        <li role="presentation"><a href="{% url 'create_user' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Sign Up</a></li>
+    </ul>
 
     <form role="form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
 
         <div class="social-buttons">
-          <a href="{% url "social:begin" "facebook" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-facebook btn-block">
-<i class="fa fa-facebook-official"></i>
-          Log In with Facebook</a>
+          <a href="{% url "social:begin" "facebook" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-facebook btn-block"> <i class="fa fa-facebook-official"></i> Log In with Facebook</a>
 
-          <a href="{% url "social:begin" "google-oauth2" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-google btn-block">
-          <i class="fa fa-google"></i>
-          Log In with Google</a>
+          <a href="{% url "social:begin" "google-oauth2" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-google btn-block"> <i class="fa fa-google"></i> Log In with Google</a>
         </div>
 
         <div class="login-or">

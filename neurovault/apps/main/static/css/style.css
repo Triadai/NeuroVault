@@ -285,6 +285,7 @@ ul.collection_nav li {
     height: 1px;
     margin-top: 0px !important;
     margin-bottom: 0px !important;
+    border-top: 0px !important;
 }
 .auth-wrapper h3 {
     text-align: center;

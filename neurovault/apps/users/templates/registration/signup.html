@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+    <ul class="nav nav-tabs" style="margin-bottom: 43px; margin-top: 15px;">
+        <li role="presentation"><a href="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Log In</a></li>
+        <li role="presentation" class="active"><a href="#">Sign Up</a></li>
+    </ul>
+
+    <form role="form" method="post" action="{% url 'create_user' %}">
+        {% csrf_token %}
+
+        <div class="social-buttons">
+          <a href="{% url "social:begin" "facebook" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-facebook btn-block"> <i class="fa fa-facebook-official"></i> Sign Up with Facebook</a>
+
+          <a href="{% url "social:begin" "google-oauth2" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-google btn-block"> <i class="fa fa-google"></i> Sign Up with Google</a>
+        </div>
+
+        <div class="login-or">
+            <hr class="hr-or">
+            <span class="span-or">or</span>
+        </div>
+
+        {{form | crispy }}
+
+        <button type="submit" class="btn btn-primary">
+          Sign Up
+        </button>
+
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+    </form>
+</div>
+{% endblock %}
