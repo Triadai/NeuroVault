@@ -327,3 +327,9 @@ ul.collection_nav li {
 .social-buttons .btn-block + .btn-block {
     margin-top: 8px;
 }
+
+/* Modal custom styling */
+.modal-header {
+   background: #337ab7;
+   color: white;
+}

@@ -2,9 +2,8 @@
 
 {% block content %}
 <div class="auth-wrapper">
-    <h3>Log In, or <a href="{% url 'create_user' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Sign Up</a></h3>
 
-    <form role="form" method="post" action="{% url 'login' %}">
+    <form role="form" method="post" action="{% url 'login' %}" style="padding-top:80px">
         {% csrf_token %}
 
         <div class="social-buttons">
@@ -39,7 +38,7 @@
         <button type="submit" class="btn btn-primary">
           Log In
         </button>
-
+        <a href="{% url 'create_user' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" style="float:right;">Sign Up</a>
         <input type="hidden" name="next" value="{{ next }}" />
     </form>
 </div>
