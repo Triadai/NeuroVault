@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.contrib import admin
-from .views import view_profile, edit_user, create_user
-from django.contrib.auth.views import login
+from .views import view_profile, edit_user, create_user, login
 from django.contrib.auth import views as auth_views
 from oauth2_provider.views.application import ApplicationList
 from .views import (ApplicationRegistration, ApplicationUpdate,

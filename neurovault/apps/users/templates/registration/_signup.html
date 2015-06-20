@@ -1,0 +1,28 @@
+{% load crispy_forms_tags %}
+
+<div class="auth-wrapper">
+    <form role="form" method="post" action="{% url 'create_user' %}">
+        {% csrf_token %}
+
+        <div class="social-buttons">
+          <a href="{% url "social:begin" "facebook" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-facebook btn-block"> <i class="fa fa-facebook-official"></i> Sign Up with Facebook</a>
+
+          <a href="{% url "social:begin" "google-oauth2" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="btn btn-lg btn-google btn-block"> <i class="fa fa-google"></i> Sign Up with Google</a>
+        </div>
+
+        <div class="login-or">
+            <hr class="hr-or">
+            <span class="span-or">or</span>
+        </div>
+
+        {{form | crispy }}
+
+        <div class="extra-errors"></div>
+
+        <button type="submit" class="btn btn-primary" data-disable-with="Signing Up…">
+          Sign Up
+        </button>
+
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+    </form>
+</div>

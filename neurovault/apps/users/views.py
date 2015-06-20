@@ -1,14 +1,18 @@
 import datetime
+from functools import wraps
+
 from django.conf import settings
 
 from django.http.response import (HttpResponseRedirect, HttpResponseForbidden,
-                                  Http404)
+                                  Http404, JsonResponse)
 from django.utils.crypto import get_random_string
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import (render, get_object_or_404, render_to_response,
+                              redirect)
+from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from .forms import UserEditForm, UserCreateForm, ApplicationEditForm
 from django.contrib.auth.decorators import login_required
 from django.template.context import RequestContext
@@ -18,11 +22,58 @@ from django.views.generic import (View, CreateView, UpdateView, DeleteView,
                                   ListView)
 from braces.views import LoginRequiredMixin
 
+from rest_framework import status
+
+
+def to_json_response(response):
+    status_code = response.status_code
+    data = None
+
+    if status.is_success(status_code):
+        if hasattr(response, 'is_rendered') and not response.is_rendered:
+            response.render()
+        data = {'data': response.content}
+
+    elif status.is_redirect(status_code):
+        data = {'redirect': response.url}
+
+    elif (status.is_client_error(status_code) or
+          status.is_server_error(status_code)):
+        data = {'errors': [{
+            'status': status_code
+        }]}
+
+    return JsonResponse(data)
+
+
+def accepts_ajax(ajax_template_name=None):
+    """
+    Decorator for views that checks if the request was made
+    via an XMLHttpRequest. Calls the view function and
+    converts the output to JsonResponse.
+    """
+
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            if request.is_ajax():
+                kwargs['template_name'] = ajax_template_name
+                response = view_func(request, *args, **kwargs)
+                return to_json_response(response)
+            return view_func(request, *args, **kwargs)
+        return _wrapped_view
+    return decorator
+
+
+@accepts_ajax(ajax_template_name='registration/_login.html')
+def login(*args, **kwargs):
+    return auth.views.login(*args, **kwargs)
+
 
 def view_profile(request, username=None):
     if not username:
-        if not request.user:
-            return HttpResponseForbidden()
+        if not request.user.is_authenticated():
+            return redirect('%s?next=%s' % (reverse('login'), request.path))
         else:
             user = request.user
     else:
@@ -30,14 +81,15 @@ def view_profile(request, username=None):
     return render(request, 'registration/profile.html', {'user': user})
 
 
-def create_user(request):
+@accepts_ajax(ajax_template_name='registration/_signup.html')
+def create_user(request, template_name='registration/signup.html'):
     if request.method == "POST":
         form = UserCreateForm(request.POST, request.FILES, instance=User())
         if form.is_valid():
             form.save()
-            new_user = authenticate(username=request.POST['username'],
-                                    password=request.POST['password1'])
-            login(request, new_user)
+            new_user = auth.authenticate(username=request.POST['username'],
+                                         password=request.POST['password1'])
+            auth.login(request, new_user)
             # Do something. Should generally end with a redirect. For example:
             if request.POST['next']:
                 return HttpResponseRedirect(request.POST['next'])
@@ -48,7 +100,7 @@ def create_user(request):
 
     context = {"form": form,
                "request": request}
-    return render(request, "registration/signup.html", context)
+    return render(request, template_name, context)
 
 
 @login_required
