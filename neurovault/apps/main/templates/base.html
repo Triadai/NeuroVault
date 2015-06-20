@@ -21,11 +21,6 @@
     {% endblock %}
     {% block head %}{% endblock %}
 	{% block functions %}{% endblock %}
-    {% if request.user.is_authenticated %}
-    <script>
-        window.userIsAuthenticated = true;
-    </script>
-    {% endif %}
 </head>
 
 {% block body %}
@@ -56,8 +51,8 @@
 	      <b class="caret"></b>
 	  </a>
 	  <ul class="dropdown-menu">
-	      <li><a class="login-required" href="{% url 'my_collections' %}">My collections</a></li>
-	      <li><a class="login-required" href="{% url 'new_collection' %}">Add new collection</a></li>
+	      <li><a href="{% url 'my_collections' %}">My collections</a></li>
+	      <li><a href="{% url 'new_collection' %}">Add new collection</a></li>
 	      <li><a href="{% url 'collections_list' %}">See all collections</a></li>
 	  </ul>
 	  </li>
@@ -79,10 +74,11 @@
 	      <li><a href="{% url 'logout' %}">Logout</a></li>
 	  </ul>
 	  </li>
-	  {% else %}
-          <li><a class="login-required" href="{% url 'my_profile' %}">Log in</a></li>
-          {% endif %}
-      </ul>
+	  </ul>
+      {% else %}
+        <a class="btn navbar-btn btn-primary signup-show" href="{% url 'create_user' %}">Sign up</a>
+        <a class="btn navbar-btn btn-primary" href="{% url 'my_profile' %}">Log in</a>
+      {% endif %}
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>

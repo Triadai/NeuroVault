@@ -65,22 +65,6 @@ def accepts_ajax(ajax_template_name=None):
     return decorator
 
 
-@accepts_ajax(ajax_template_name='registration/_login.html')
-def login(*args, **kwargs):
-    return auth.views.login(*args, **kwargs)
-
-
-def view_profile(request, username=None):
-    if not username:
-        if not request.user.is_authenticated():
-            return redirect('%s?next=%s' % (reverse('login'), request.path))
-        else:
-            user = request.user
-    else:
-        user = get_object_or_404(User, username=username)
-    return render(request, 'registration/profile.html', {'user': user})
-
-
 @accepts_ajax(ajax_template_name='registration/_signup.html')
 def create_user(request, template_name='registration/signup.html'):
     if request.method == "POST":
@@ -101,6 +85,17 @@ def create_user(request, template_name='registration/signup.html'):
     context = {"form": form,
                "request": request}
     return render(request, template_name, context)
+
+
+def view_profile(request, username=None):
+    if not username:
+        if not request.user.is_authenticated():
+            return redirect('%s?next=%s' % (reverse('login'), request.path))
+        else:
+            user = request.user
+    else:
+        user = get_object_or_404(User, username=username)
+    return render(request, 'registration/profile.html', {'user': user})
 
 
 @login_required

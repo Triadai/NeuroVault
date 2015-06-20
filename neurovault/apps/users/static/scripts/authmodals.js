@@ -64,27 +64,10 @@ $.fn.modalForm = function (options) {
 
 
 $(document).ready(function () {
-  $('.login-required').click(function (e) {
-    if (window.userIsAuthenticated) {
-      return true;
-    }
-
-    var next = $(e.target).attr('href');
-
-    if (next !== undefined) {
-      $('#loginModal form input[name=next]').val(next);
-    }
-
+  $('.signup-show').click(function(e) {
     e.preventDefault();
-    $('#loginModal').modal();
-  });
-
-  $('#loginModal').on('click', '.signup-show', function (e) {
-    e.preventDefault();
-    $('#loginModal').modal('hide');
     $('#signupModal').modal();
   });
 
-  $('#loginModal').modalForm();
   $('#signupModal').modalForm();
 });

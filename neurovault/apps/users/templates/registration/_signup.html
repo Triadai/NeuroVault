@@ -22,7 +22,7 @@
         <button type="submit" class="btn btn-primary" data-disable-with="Signing Up…">
           Sign Up
         </button>
-        <span class="pull-right" style="line-height: 35px;"><a href="{% url 'my_profile' %}">Log In</a></span>
+        <span class="pull-right auth-alt-method"><a href="{% url 'my_profile' %}">Log In</a></span>
         <input type="hidden" name="next" value="{{ request.GET.next }}" />
     </form>
 </div>

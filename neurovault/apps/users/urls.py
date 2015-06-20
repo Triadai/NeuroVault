@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.contrib import admin
-from .views import view_profile, edit_user, create_user, login
+from .views import view_profile, edit_user, create_user
 from django.contrib.auth import views as auth_views
 from oauth2_provider.views.application import ApplicationList
 from .views import (ApplicationRegistration, ApplicationUpdate,
@@ -12,7 +12,7 @@ from .views import (ApplicationRegistration, ApplicationUpdate,
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^login/$', login,
+    url(r'^login/$', auth_views.login,
         {'extra_context': {'plus_id': getattr(settings, 'SOCIAL_AUTH_GOOGLE_PLUS_KEY', None),
                            'plus_scope': 'profile email'}},
         name="login"),

@@ -1,4 +1,4 @@
-<div class="auth-wrapper">
+<div class="auth-wrapper login-wrapper">
     <form role="form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
 
@@ -33,7 +33,7 @@
             <button type="submit" class="btn btn-primary" data-disable-with="Logging In…">
               Log In
             </button>
-            <span class="pull-right" style="line-height: 35px;"><a class="signup-show" href="#">Sign Up</a></span>
+            <span class="pull-right auth-alt-method"><a class="signup-show" href="#">Sign Up</a></span>
         </div>
 
         <input type="hidden" name="next" value="{{ next }}" />

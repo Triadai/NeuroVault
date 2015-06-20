@@ -261,6 +261,12 @@ ul.collection_nav li {
     max-width: 320px;
     margin: 38px auto 60px auto;
 }
+
+.login-wrapper {
+    margin-top: 78px;
+    margin-bottom: 117px;
+}
+
 .login-or {
     position: relative;
     font-size: 18px;
@@ -294,6 +300,23 @@ ul.collection_nav li {
 .auth-wrapper p.centered-info {
     text-align: center;
 }
+.auth-wrapper .auth-alt-method {
+    line-height: 35px;
+}
+
+#signupModal .modal-dialog {
+    padding-top: 21px;
+    width: 550px;
+}
+#signupModal .modal-header {
+    border-bottom: none;
+}
+#signupModal .modal-body {
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+
 .social-buttons {
     margin-bottom: 32px;
 }
