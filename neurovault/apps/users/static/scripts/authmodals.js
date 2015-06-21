@@ -62,9 +62,22 @@ $.fn.modalForm = function (options) {
   return this;
 };
 
+function getNextUrl() {
+  var next = $('.login-wrapper form input[name=next]').val();
+  if (!next) {
+    next = window.location.pathname;
+  }
+  return next;
+}
 
 $(document).ready(function () {
   $('.signup-show').click(function(e) {
+
+    var next = getNextUrl();
+    if (next !== undefined) {
+      $('#signupModal form input[name=next]').val(next);
+    }
+
     e.preventDefault();
     $('#signupModal').modal();
   });
