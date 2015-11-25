@@ -19,21 +19,21 @@
             {% endif %}
 
             <label for="{{ form.username.id_for_label }}" class="control-label">Username</label>
-            <input name="{{ form.username.name }}" type="text" class="form-control" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:"" }}" maxlength="254">
+            <input name="{{ form.username.name }}" type="text" class="form-control" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:"" }}" tabindex="1">
         </div>
         <div class="form-group{% if form.errors %} has-error{% endif %}">
-            <a class="pull-right" href="{% url 'password_reset' %}">Forgot password?</a>
+            <a class="pull-right" href="{% url 'password_reset' %}" tabindex="5">Forgot password?</a>
             <label for="{{ form.password.id_for_label }}" class="control-label">Password</label>
-            <input name="{{ form.password.name }}" type="password" class="form-control" id="{{ form.password.id_for_label }}">
+            <input name="{{ form.password.name }}" type="password" class="form-control" id="{{ form.password.id_for_label }}" tabindex="2">
         </div>
 
         <div class="extra-errors"></div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" data-disable-with="Logging In…">
+            <button type="submit" class="btn btn-primary" data-disable-with="Logging In…" tabindex="3">
               Log In
             </button>
-            <span class="pull-right auth-alt-method"><a class="signup-show" href="#">Sign Up</a></span>
+            <span class="pull-right auth-alt-method"><a class="signup-show" href="#" tabindex="4">Sign Up</a></span>
         </div>
 
         <input type="hidden" name="next" value="{{ next }}" />
